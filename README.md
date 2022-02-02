@@ -1,2 +1,2 @@
 # Image_Recognition_338
-The repository for CSCI 338 image recognition project
+This is our project for the UNCA CSCI 338 class Software Engineering. In this project we have been tasked with writing an image recognition program using whatever language/library we chose. For this project we have chosen to work with the Python programming language and Tensorflow to allow for the efficient creation and training of a machine learning algorithm. The goal is for our program to be able to recognize several animals from nature as well as pets found in homes.
