@@ -1,4 +1,4 @@
-The "results" and "uploads" directory have been added to the "src" directory as these will be the locations the web server will use
+The "results" and "uploads" directory should be added to the "src" directory as well, since these will be the locations the web server will use
 to upload the image file and read results from once the script is finished running.
 
 The main script needs to accept two command line arguments:
