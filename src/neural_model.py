@@ -30,7 +30,7 @@ def train_model(save=False, epochs=10):
         seed=123,
         image_size=(img_height, img_width),
         batch_size=batch_size,
-        shuffle=True)
+        shuffle=True).repeat()
 
     print(type(train_ds))
     validation_ds = tf.keras.utils.image_dataset_from_directory(  # validation images
@@ -40,7 +40,7 @@ def train_model(save=False, epochs=10):
         seed=123,
         image_size=(img_height, img_width),
         batch_size=batch_size,
-        shuffle=True)
+        shuffle=True).repeat()
 
 
     # Verify files are organized properly. Using RGB values
@@ -66,10 +66,10 @@ def train_model(save=False, epochs=10):
     model_seq = tf.keras.Sequential([tf.keras.layers.Rescaling(1. / 255),
                                      tf.keras.layers.Conv2D(32, 3, activation='relu'),
                                      tf.keras.layers.MaxPooling2D(),
-                                     # tf.keras.layers.Conv2D(32, 3, activation='relu'),
-                                     # tf.keras.layers.MaxPooling2D(),
-                                     # tf.keras.layers.Conv2D(32, 3, activation='relu'),
-                                     # tf.keras.layers.MaxPooling2D(),
+                                     tf.keras.layers.Conv2D(32, 3, activation='relu'),
+                                     tf.keras.layers.MaxPooling2D(),
+                                     tf.keras.layers.Conv2D(32, 3, activation='relu'),
+                                     tf.keras.layers.MaxPooling2D(),
                                      tf.keras.layers.Flatten(),
                                      tf.keras.layers.Dense(128, activation='relu'),
                                      tf.keras.layers.Dense(num_classes)
@@ -82,6 +82,8 @@ def train_model(save=False, epochs=10):
 
     model_seq.fit(
         train_ds,
+        steps_per_epoch=2000,
         validation_data=validation_ds,
+        validation_steps=800,
         epochs=epochs
     )
