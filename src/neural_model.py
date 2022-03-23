@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 
 def train_model(save=False, epochs=10):
-    save_location="..\\model_saves\\model"  # Currently, set for Windows machine. Change when put on linux server.
+    save_location = "..\\model_saves\\model"  # Currently, set for Windows machine. Change when put on linux server.
     batch_size = 32
     img_height = 180
     img_width = 180
@@ -30,7 +30,7 @@ def train_model(save=False, epochs=10):
         seed=123,
         image_size=(img_height, img_width),
         batch_size=batch_size,
-        shuffle=True).repeat()
+        shuffle=True)#.repeat()
 
     print(type(train_ds))
     validation_ds = tf.keras.utils.image_dataset_from_directory(  # validation images
@@ -79,11 +79,17 @@ def train_model(save=False, epochs=10):
         optimizer='adam',
         loss=tf.losses.SparseCategoricalCrossentropy(from_logits=True),
         metrics=['accuracy'])
-
+    checkpoint_path = "C:\\Users\\eric\\PycharmProjects\\Image_Recognition_338\\training\\cp.ckpt"
+    cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
+                                                     save_weights_only=True,
+                                                     verbose=1)
     model_seq.fit(
         train_ds,
-        steps_per_epoch=2000,
+        #steps_per_epoch=2000,
         validation_data=validation_ds,
         validation_steps=800,
-        epochs=epochs
+        epochs=10,
+        callbacks=[cp_callback] # pass callback to training
     )
+    final_model = "C:\\Users\\eric\\PycharmProjects\\Image_Recognition_338\\training\\weights"
+    model_seq.save(final_model)
