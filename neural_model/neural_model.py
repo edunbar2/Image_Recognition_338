@@ -11,7 +11,6 @@ import matplotlib.pyplot as plt
 
 
 def train_model(save=False, epochs=10):
-    save_location = "..\\model_saves\\model"  # Currently, set for Windows machine. Change when put on linux server.
     batch_size = 32
     img_height = 180
     img_width = 180
@@ -30,7 +29,7 @@ def train_model(save=False, epochs=10):
         seed=123,
         image_size=(img_height, img_width),
         batch_size=batch_size,
-        shuffle=True)#.repeat()
+        shuffle=True)  # .repeat()
 
     print(type(train_ds))
     validation_ds = tf.keras.utils.image_dataset_from_directory(  # validation images
@@ -41,7 +40,6 @@ def train_model(save=False, epochs=10):
         image_size=(img_height, img_width),
         batch_size=batch_size,
         shuffle=True).repeat()
-
 
     # Verify files are organized properly. Using RGB values
     for image_batch, labels_batch in train_ds:
@@ -85,11 +83,12 @@ def train_model(save=False, epochs=10):
                                                      verbose=1)
     model_seq.fit(
         train_ds,
-        #steps_per_epoch=2000,
+        steps_per_epoch=2000,
         validation_data=validation_ds,
         validation_steps=800,
-        epochs=10,
-        callbacks=[cp_callback] # pass callback to training
+        epochs=epochs,
+        callbacks=[cp_callback]  # pass callback to training
     )
-    final_model = "C:\\Users\\eric\\PycharmProjects\\Image_Recognition_338\\training\\weights"
+    # save model as h5 file for use in UI
+    final_model = "C:\\Users\\eric\\PycharmProjects\\Image_Recognition_338\\training\\weights\\final_model.h5"
     model_seq.save(final_model)
